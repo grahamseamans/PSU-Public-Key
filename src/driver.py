@@ -13,6 +13,7 @@ class driver:
 
     def decrypt(self):
         self.crypt.read_keys()
+        plain_to_print = ""
         with open(self.file_encrypted, "r") as cipher_reader:
             with open(self.file_plain, "w") as plain_writer:
                 for line in cipher_reader:
@@ -21,6 +22,8 @@ class driver:
                     plain_number = self.crypt.decrypt(C[0], C[1])
                     plain_block = self.bin_to_ascii(plain_number)
                     plain_writer.write(str(plain_block))
+                    plain_to_print += str(plain_block)
+        print(plain_to_print)
 
     def encrypt(self):
         self.crypt.read_keys()
@@ -33,6 +36,7 @@ class driver:
                     plain_block = self.str_to_int(plain_block)
                     C1, C2 = self.crypt.encrypt(plain_block)
                     c.write(str(C1) + " " + str(C2) + "\n")
+                    print(str(C1) + " " + str(C2))
 
     def str_to_int(self, string):
         return int("".join(format(ord(i), "08b") for i in string), 2)
@@ -57,15 +61,15 @@ if __name__ == "__main__":
     dri = driver()
 
     if len(sys.argv) <= 1:
-        encrypt_decrypt_keys = input("e for encrypt, d for decrypt, k to make keys: ")
+        console_arg = input("e for encrypt, d for decrypt, k to make keys: ")
     else:
-        encrypt_decrypt_keys = sys.argv[1]
+        console_arg = sys.argv[1]
 
-    if encrypt_decrypt_keys == "e":
+    if console_arg == "e":
         dri.encrypt()
-    elif encrypt_decrypt_keys == "d":
+    elif console_arg == "d":
         dri.decrypt()
-    elif encrypt_decrypt_keys == "k":
+    elif console_arg == "k":
         dri.make_keys()
     else:
         print("bad input")

@@ -3,7 +3,7 @@ import secrets
 
 
 def get_2_generator_prime():
-    keysize = 33
+    keysize = 32
     p = 4  # some not prime number
     while not is_prime(p):
         q = rand_bits_max_filled(keysize)
@@ -55,7 +55,7 @@ def is_prime(n):
 
 def rand_bits_max_filled(bits):
     a = secrets.randbits(bits)
-    # a = a | 1 << bits - 1
+    a = a | 1 << bits - 1
     return a
 
 

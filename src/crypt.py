@@ -1,4 +1,3 @@
-# pyright: reportUnusedFunction=false
 import secrets
 from utility import get_2_generator_prime
 
@@ -12,25 +11,22 @@ class public_key_crypto:
         self.pub_file = "./pubkey.txt"
         self.pri_file = "./prikey.txt"
 
-    """
-    def get_private_key(self):
-        return self.p, self.e1, self.d
-
-    def get_public_key(self):
-        return self.p, self.e1, self.e2
-    """
-
     def make_keys(self):
         self.p = get_2_generator_prime()
         self.d = secrets.randbelow(self.p - 1)
         self.e2 = pow(2, self.d, self.p)
         self.write_keys()
+        self.print_keys()
 
     def read_keys(self):
         with open(self.pri_file, "r") as f:
             self.p, self.e1, self.d = self.parse_keyfile(f)
         with open(self.pub_file, "r") as f:
             self.p, self.e1, self.e2 = self.parse_keyfile(f)
+
+    def print_keys(self):
+        print(str(self.p) + " " + str(self.e1) + " " + str(self.d))
+        print(str(self.p) + " " + str(self.e1) + " " + str(self.e2))
 
     def parse_keyfile(self, f):
         assert f
